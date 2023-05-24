@@ -50,13 +50,47 @@ export class ProductsAdminViweComponent implements OnInit {
 
   openDialog(actionType:string, product?: products){
     const dialogRef = this.dialog.open(ProductFormDialogComponent, {
-      //data: ,
+      data: {actionType, product}
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      const data = this.dataSource.data;
-      data.push(result);
-      this.dataSource.data = data;
-    });
+    if(actionType == 'create'){
+      dialogRef.afterClosed().subscribe(result => {
+        const data = this.dataSource.data;
+        data.push(result);
+        this.dataSource.data = data;
+      });
+    }else{
+      dialogRef.afterClosed().subscribe(result => {
+        this.upDateRow(result);
+      });
+    }
+   
   }
+  upDateRow(result:products){
+    this.dataSource.data = this.dataSource.data.filter((value:any,key:any)=>{
+      if(value.id == result.id){
+        value.title = result.title;
+        value.price = result.price;
+        value.category = result.category;
+        value.description = result.description;
+      }
+      return true;
+    });
+  
+    
+  }
+
+  deleteRow(id:number){
+    alert('are you sure want to delete this product ?!')
+    this.service.delete('products',id).subscribe(res =>{
+      if(res){
+        this.dataSource.data = this.dataSource.data.filter((value:any,key:any)=>{
+          return value.id != id;
+        });
+      }
+    },error => {
+      alert('Somting Wrong !!');
+    })
+   
+  }
+ 
 }

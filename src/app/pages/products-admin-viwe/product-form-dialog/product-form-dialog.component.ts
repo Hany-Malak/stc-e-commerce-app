@@ -13,18 +13,32 @@ export class ProductFormDialogComponent implements OnInit {
   categories!: string[];
   constructor(
     public dialogRef: MatDialogRef<ProductFormDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: products,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private service: CurdSharedServiceService
   ) {}
 
   ngOnInit() {
     this.getCategories();
-    this.productForm = new FormGroup({
-      title: new FormControl('', Validators.required),
-      price: new FormControl('', Validators.required),
-      category: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
-    });
+    this.createOrEditProduct()
+    
+  }
+
+  createOrEditProduct(){
+    if(this.data.actionType == 'create'){
+      this.productForm = new FormGroup({
+        title: new FormControl('', Validators.required),
+        price: new FormControl('', Validators.required),
+        category: new FormControl('', Validators.required),
+        description: new FormControl('', Validators.required),
+      });
+    }else{}
+      this.productForm = new FormGroup({
+        id: new FormControl(this.data.product.id, Validators.required),
+        title: new FormControl(this.data.product.title, Validators.required),
+        price: new FormControl(this.data.product.price, Validators.required),
+        category: new FormControl(this.data.product.category, Validators.required),
+        description: new FormControl(this.data.product.description, Validators.required),
+      });
   }
 
   getCategories() {
@@ -39,17 +53,31 @@ export class ProductFormDialogComponent implements OnInit {
   }
 
   onSubmit(form: products) {
-    this.service.createNew('products', form).subscribe(
-      (res: any) => {
-        if (res) {
-          this.data = res;
-          this.dialogRef.close(this.data);
+    if(this.data.actionType == 'create'){
+      this.service.createNew('products', form).subscribe(
+        (res: any) => {
+          if (res) {
+            this.dialogRef.close(res);
+          }
+        },
+        (error) => {
+          alert('Somting Wrong !!');
         }
-      },
-      (error) => {
-        alert('Somting Wrong !!');
-      }
-    );
+      );
+    }
+    else{
+      this.service.update('products',this.data.product.id, form).subscribe(
+        (res: any) => {
+          if (res) {
+            this.dialogRef.close(res);
+          }
+        },
+        (error) => {
+          alert('Somting Wrong !!');
+        }
+      );
+    }
+    
   }
 
   onNoClick(): void {

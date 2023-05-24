@@ -20,11 +20,11 @@ export class CurdSharedServiceService {
     return this.http.post(`${this.baseURL}${url}`, data)
   }
 
-  update(){
-
+  update(url: string, id:number, data:products) : Observable<any>{
+    return this.http.put(`${this.baseURL}${url}/${id}`, data)
   }
 
-  delete(){
-
+  delete(url: string, id:number){
+    return this.http.delete(`${this.baseURL}${url}/${id}`)
   }
 }
