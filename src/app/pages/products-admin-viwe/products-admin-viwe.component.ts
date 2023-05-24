@@ -25,7 +25,7 @@ export class ProductsAdminViweComponent implements OnInit {
   displayedColumns: string[] = ['id', 'title', 'price', 'category', 'actions'];
   dataSource!: MatTableDataSource<products>;
   productsArray!: products[];
-
+  product! : products
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -39,10 +39,12 @@ export class ProductsAdminViweComponent implements OnInit {
 
 
   getProducts() {
-    this.service.getAll().subscribe((res) => {
+    this.service.getAll('products').subscribe((res) => {
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+    },error => {
+      alert('Somting Wrong !!');
     });
   }
 
@@ -52,8 +54,9 @@ export class ProductsAdminViweComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      //this.animal = result;
+      const data = this.dataSource.data;
+      data.push(result);
+      this.dataSource.data = data;
     });
   }
 }

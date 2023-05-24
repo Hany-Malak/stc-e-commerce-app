@@ -1,27 +1,35 @@
 <h1 mat-dialog-title>{{ data }} Product</h1>
 <form
-
-[formGroup]="productForm"
-fxLayout="column"
-fxLayoutAlign="center stretch"
-(ngSubmit)="onSubmit(productForm.value)"
+  class="row"
+  [formGroup]="productForm"
+  fxLayout="column"
+  fxLayoutAlign="center stretch"
+  (ngSubmit)="onSubmit(productForm.value)"
 >
-<div mat-dialog-content>
- 
-
-    <mat-form-field>
+  <div mat-dialog-content>
+    <mat-form-field class="col-12">
       <mat-label>Title</mat-label>
       <input matInput formControlName="title" required />
       <mat-error>Title is Requierd !</mat-error>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field class="col-12">
       <mat-label>price</mat-label>
       <input matInput type="number" formControlName="price" required />
       <mat-error>price is requierd !</mat-error>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field class="col-12">
+      <mat-label>category</mat-label>
+      <mat-select formControlName="category" required>
+       
+        <mat-option *ngFor="let category of categories" [value]="category">
+          {{category}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-12">
       <mat-label>description</mat-label>
       <textarea
         matInput
@@ -31,12 +39,9 @@ fxLayoutAlign="center stretch"
       ></textarea>
       <mat-error>description is requierd !</mat-error>
     </mat-form-field>
-
- 
-</div>
-<div mat-dialog-actions>
-    <button type="submit" mat-button >Ok</button>
+  </div>
+  <div mat-dialog-actions>
+    <button type="submit" mat-button>Ok</button>
     <button mat-button (click)="onNoClick()">No Thanks</button>
-
-</div>
+  </div>
 </form>

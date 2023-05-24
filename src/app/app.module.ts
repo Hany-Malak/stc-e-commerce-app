@@ -23,6 +23,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { ProductFormDialogComponent } from './pages/products-admin-viwe/product-form-dialog/product-form-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
