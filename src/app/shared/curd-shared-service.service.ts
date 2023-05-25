@@ -16,6 +16,10 @@ export class CurdSharedServiceService {
     return this.http.get(`${this.baseURL}${url}`)
   }
 
+  getByItem(url: string, item:string) : Observable<any>{
+    return this.http.get(`${this.baseURL}${url}/${item}`)
+  }
+
   createNew(url: string, data:products) : Observable<any>{
     return this.http.post(`${this.baseURL}${url}`, data)
   }

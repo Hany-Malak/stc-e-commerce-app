@@ -1,1 +1,22 @@
-<p>products-users-viwe works!</p>
+<div class="container">
+  <div class="row" *ngFor="let category of CategoryProducts">
+    <h1>{{ category[0].category }}</h1>
+    <mat-card class="example-card" class="col-4" *ngFor="let item of category">
+      <mat-card-header>
+        <mat-card-title>{{ item.title }}</mat-card-title>
+      </mat-card-header>
+      <img
+        mat-card-image
+        [src]="item.image"
+        alt="Photo of a Shiba Inu"
+        style="max-height: 200px; width: auto"
+      />
+      <mat-card-content>
+        <p>
+          {{ item.description }}
+        </p>
+        <p>{{ item.price }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
